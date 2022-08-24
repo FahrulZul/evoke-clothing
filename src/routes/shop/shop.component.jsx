@@ -1,30 +1,14 @@
-import { Fragment, useContext } from "react";
-import { CategoriesContext } from "../../contexts/categories.context";
-import ProductCard from "../../components/product-card/product-card.component";
 import "./shop.styles.scss";
+import { Routes, Route } from "react-router-dom";
+import CategoriesPreview from "../categories-preview/categories-preview.component";
+import Category from "../category/category.component";
 
 const Shop = () => {
-    const { categoriesMap } = useContext(CategoriesContext);
-
     return (
-        <>
-            {Object.keys(categoriesMap).map((title) => (
-                <Fragment key={title}>
-                    <h2>{title.toUpperCase()}</h2>
-
-                    <div className="products-container">
-                        {categoriesMap[title]
-                            .slice(0, 4)
-                            .map((product, index) => (
-                                <ProductCard
-                                    key={product.id}
-                                    product={product}
-                                />
-                            ))}
-                    </div>
-                </Fragment>
-            ))}
-        </>
+        <Routes>
+            <Route index element={<CategoriesPreview />} />
+            <Route path=":category" element={<Category />} />
+        </Routes>
     );
 };
 
