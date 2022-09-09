@@ -1,4 +1,9 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+    emailSignInStart,
+    googleSignInStart,
+} from "../../store/user/user.action";
 import {
     signInWithGooglePopup,
     createUserDocumentFromAuth,
@@ -14,11 +19,12 @@ const defaultFormFields = {
 };
 
 const SignInForm = () => {
+    const dispatch = useDispatch();
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { email, password } = formFields;
 
     const signInWithGoogle = async () => {
-        await signInWithGooglePopup();
+        dispatch(googleSignInStart());
     };
 
     const handleChange = (event) => {
@@ -31,7 +37,7 @@ const SignInForm = () => {
         event.preventDefault();
 
         try {
-            await signInAuthWithEmailAndPassword(email, password);
+            dispatch(emailSignInStart(email, password));
             setFormFields(defaultFormFields);
         } catch (error) {
             switch (error.code) {

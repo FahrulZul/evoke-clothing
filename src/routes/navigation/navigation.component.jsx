@@ -1,17 +1,20 @@
-import { Fragment, useContext } from "react";
-import { useSelector } from "react-redux";
+import { Fragment } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 import { ReactComponent as EvokeLogo } from "../../assets/svg/evoke-logo.svg";
-import { signOutUser } from "../../utils/firebase/firebase.utils";
 import "./navigation.styles.scss";
 import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
-import { CartContext } from "../../contexts/cart.context";
 import { selectCurrentUser } from "../../store/user/user.selector";
+import { selectIsCartOpen } from "../../store/cart/cart.selector";
+import { signOutStart } from "../../store/user/user.action";
 
 const Navigation = () => {
-    const { isCartOpen } = useContext(CartContext);
+    const dispatch = useDispatch();
+    const isCartOpen = useSelector(selectIsCartOpen);
     const currentUser = useSelector(selectCurrentUser);
+
+    const signOutUser = () => dispatch(signOutStart());
 
     return (
         <Fragment>
